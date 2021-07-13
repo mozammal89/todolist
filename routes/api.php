@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,13 +13,17 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
- */
+*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/item')->group(function () {
-    Route::get('/list','ItemController@index');
-}
-);
+
+// Item 
+Route::prefix('/item')->group( function (){
+    Route::get('/list',[ItemController::class, 'index']);
+    Route::post('/store',[ItemController::class, 'store']);
+    Route::put('/{id}',[ItemController::class, 'update']);
+    Route::delete('/{id}',[ItemController::class, 'destroy']);
+});
